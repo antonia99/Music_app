@@ -2,10 +2,10 @@ public class Song {
     private int id;
     private String artist;
     private String title;
-    private float duration;
+    private double duration;
     private String type;
     private String link;
-    public Song(int id, String artist, String title, float duration, String type, String link) {
+    public Song(int id, String artist, String title, double duration, String type, String link) {
         super();
         this.id = id;
         this.artist = artist;
@@ -46,12 +46,12 @@ public class Song {
     }
 
 
-    public float getDuration() {
+    public double getDuration() {
         return duration;
     }
 
 
-    public void setDuration(float duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
 
