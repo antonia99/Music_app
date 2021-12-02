@@ -1,13 +1,11 @@
-import java.util.ArrayList;
-
 public class Song {
     private int id;
     private String artist;
     private String title;
     private float duration;
-    private ArrayList<String> type=new ArrayList<>();
+    private String type;
     private String link;
-    public Song(int id, String artist, String title, float duration, ArrayList<String> type, String link) {
+    public Song(int id, String artist, String title, float duration, String type, String link) {
         super();
         this.id = id;
         this.artist = artist;
@@ -58,12 +56,12 @@ public class Song {
     }
 
 
-    public ArrayList<String> getType() {
+    public String getType() {
         return type;
     }
 
 
-    public void setType(ArrayList<String> type) {
+    public void setType(String type) {
         this.type = type;
     }
 
