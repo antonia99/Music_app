@@ -42,35 +42,13 @@ public class SongDAOMySQL_Impl implements SongDAO{
     }
 
 
-    @Override
-    public boolean update(Song c) {
-        try
-        {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("update songs set artist = ?,title=?,duration=?,type=?,link=? where id = ?");
-            ps.setString(1, c.getArtist());
-            ps.setString(2, c.getTitle());
-            ps.setDouble(3, c.getDuration());
-            ps.setString(4, c.getType());
-            ps.setString(5, c.getLink());
-            ps.setInt(6, c.getId());
-            int affectedRows = ps.executeUpdate();
-            closeConnection(conn);
-            return affectedRows == 1;
-        }
-        catch(SQLException e)
-        {
-            return false;
-        }
-    }
-
 
     @Override
     public boolean delete(int id) {
         try
         {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("delete from music_app where id = ?");
+            PreparedStatement ps = conn.prepareStatement("delete from songs where id = ?");
             ps.setInt(1, id);
             int affectedRows = ps.executeUpdate();
             closeConnection(conn);
@@ -88,11 +66,11 @@ public class SongDAOMySQL_Impl implements SongDAO{
     }
 
     @Override
-    public void getAllSongs() throws SQLException {
+    public Song[] getAllSongs() throws SQLException {
         try
         {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("select * from music_app");
+            PreparedStatement ps = conn.prepareStatement("select * from songs");
             ResultSet rs = ps.executeQuery();
             ArrayList<Song> SongsList = new ArrayList<Song>();
             while(rs.next())
@@ -104,14 +82,15 @@ public class SongDAOMySQL_Impl implements SongDAO{
                 String type= rs.getString("type");
                 String link= rs.getString("link");
                 SongsList.add(new Song(id, artist,title,duration,type,link));
+                for(int i=0;i<SongsList.size();i++ ) {
+                    Collections.sort(SongsList,new Compare());}
             }
             closeConnection(conn);
-            for(int i=0;i<SongsList.size();i++ ) {
-                 Collections.sort(SongsList,new Compare());}
-            for(Song element:SongsList) {
-                System.out.println(SongsList);}
+            return SongsList.toArray(new Song[SongsList.size()]);
+
         } catch (SQLException e) {
-            e.printStackTrace();
+
+            return null;
         }
 
 
