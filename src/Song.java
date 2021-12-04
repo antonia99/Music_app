@@ -31,8 +31,9 @@ public class Song {
     }
 
 
-    public void setArtist(String artist) {
+    public String setArtist(String artist) {
         this.artist = artist;
+        return artist;
     }
 
 
@@ -78,7 +79,7 @@ public class Song {
 
     @Override
     public String toString() {
-        return "Song [id=" + id + ", artist=" + artist + ", title=" + title + ", duration=" + duration + ", type=" + type
-                + ", link=" + link + "]";
+        return  id + "." + artist + "-" + title + ", duration:" + duration + ", type:" + type
+                + ", link:" + link;
     }
 }
