@@ -32,6 +32,13 @@ public class Main {
                 System.out.println("Song added!");
                 break;
             case "2":
+                sDAO.delete();
+                System.out.println("Song deleted!");
+                break;
+            case "3":
+                System.out.println("Your songs:");
+                for(Song s:sDAO.getAllSongs())
+                    System.out.println(s);
                 break;
         }
 

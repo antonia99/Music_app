@@ -40,7 +40,7 @@ public class SongDAOMySQL_Impl implements SongDAO{
 
     }
         @Override
-        public boolean delete ( int id){
+        public void delete (){
         try {
             System.out.print("id: ");
             int id_song = Integer.parseInt(scan.nextLine());
@@ -49,9 +49,9 @@ public class SongDAOMySQL_Impl implements SongDAO{
             ps.setInt(1, id_song);
             int affectedRows = ps.executeUpdate();
             closeConnection(conn);
-            return affectedRows == 1;
+
         } catch (SQLException e) {
-            return false;
+            e.printStackTrace();
         }
     }
 
