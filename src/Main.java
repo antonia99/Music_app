@@ -16,15 +16,17 @@ public class Main {
         //Menu menu=new Menu();
         //menu.printMenu();
         //menu.runMenu();
-
-        System.out.println("1- add a song\n " +
+       String menu="1- add a song\n " +
                 "2- delete a song\n " +
                 "3- see all songs\n" +
                 "4- add songs in playlist\n" +
                 "5- add all songs from an artist to playlist\n"+
-                "6- play the songs in the playlist");
-
+                "6- play the songs in the playlist\n"  +
+                "7- Exit";
+         System.out.println(menu);
         Scanner scanner = new Scanner(System.in);
+        boolean quit=false;
+        do{
         String next=scanner.next();
         switch (next){
             case "1":
@@ -35,15 +37,23 @@ public class Main {
                 sDAO.delete();
                 System.out.println("Song deleted!");
                 break;
+
             case "3":
                 System.out.println("Your songs:");
                 for(Song s:sDAO.getAllSongs())
                     System.out.println(s);
                 break;
-        }
+            case "7":
+                quit=true;
+                System.out.println("You exit the program!");
+                break;
+            default:
+                System.out.println("No avaliable option for this choice!");
 
         }
-    }
+
+        } while(!quit);
+    }}
 
 
 
