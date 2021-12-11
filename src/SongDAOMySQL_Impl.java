@@ -56,10 +56,6 @@ public class SongDAOMySQL_Impl implements SongDAO{
     }
 
         @Override
-        public void createPlaylist () {
-
-    }
-        @Override
         public Song[] getAllSongs () throws SQLException {
         try {
             Connection conn = getConnection();
