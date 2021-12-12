@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
@@ -7,63 +8,80 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
 
     @Override
     public void addToPlaylist() {
-        System.out.print("Playlist name: ");
+            System.out.print("Playlist name: ");
             String name = scan.nextLine();
-            System.out.print("artist: ");
-            String artist = scan.nextLine();
-            System.out.print("title: ");
-            String title = scan.nextLine();
+             System.out.print("artist: ");
+             String artist = scan.nextLine();
+             System.out.print("title: ");
+             String title = scan.nextLine();
+
             //int id = Integer.parseInt(scan.nextLine());
 
-            try {
-                Connection conn = getConnection();
-                PreparedStatement st = conn.prepareStatement("select id from songs where artist=? and title=?", Statement.RETURN_GENERATED_KEYS);
-                st.setString(1, artist);
-                st.setString(2, title);
-                ResultSet rs = st.executeQuery();
+            try {Connection conn = getConnection();
+                    PreparedStatement st = conn.prepareStatement("select id from songs where artist=? and title=?", Statement.RETURN_GENERATED_KEYS);
+                    st.setString(1, artist);
+                    st.setString(2, title);
+                    ResultSet rs = st.executeQuery();
+                   boolean  noBreak=true;
+                   ArrayList<Integer>id_s=new ArrayList<Integer>();
                 PreparedStatement ps = conn.prepareStatement("insert into playlist(name,id_s) values(?,?) ", Statement.RETURN_GENERATED_KEYS);
                 while (rs.next()) {
-                    int id_s = rs.getInt("id");
+                    String id=rs.getString("id");
+                     id_s.add(Integer.valueOf(id)) ;
 
+                     noBreak=false;
+                }
+                if(noBreak==false){
                     ps.setString(1, name);
-                    ps.setInt(2, id_s);
+                    ps.setString(2, String.valueOf(id_s));
 
                     int affectedRows = ps.executeUpdate();
-                }
-
-
+                    System.out.println("Song added!");}
+               else System.out.println("Song/Artist doesn't exist!");
                 ;
                 closeConnection(conn);
 
             } catch (SQLException e) {
-                e.printStackTrace();
-            }
+                e.printStackTrace();}
+
 
     }
     @Override
     public void addAllToPlaylist() {
-        System.out.print("id: ");
-        int id = Integer.parseInt(scan.nextLine());
-        System.out.print("name: ");
+        System.out.print("Playlist name: ");
         String name = scan.nextLine();
-        System.out.print("Id song: ");
-        int id_s = Integer.parseInt(scan.nextLine());
+        System.out.print("artist: ");
+        String artist = scan.nextLine();
         //int id = Integer.parseInt(scan.nextLine());
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("insert into playlist(id,name,id_s) values(?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, id);//s.setArtist(scan.nextLine()));
-            ps.setString(2, name);
-            ps.setInt(3, id_s);
+
+        try {Connection conn = getConnection();
+            PreparedStatement st = conn.prepareStatement("select id from songs where artist=? ", Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, artist);
+
+            ResultSet rs = st.executeQuery();
+            ArrayList<Integer>id_s=new ArrayList<Integer>();
+            PreparedStatement ps = conn.prepareStatement("insert into playlist(name,id_s) values(?,?) ", Statement.RETURN_GENERATED_KEYS);
+            boolean noBreak=true;
+            while(rs.next()){
+
+                String id=rs.getString("id");
+
+                id_s.add(Integer.valueOf(id)) ;
+                noBreak=false;
+            }
+            if(noBreak==false){
+            ps.setString(1, name);
+            ps.setString(2, String.valueOf(id_s));
+
             int affectedRows = ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                rs.getInt(1);
-            } ;
+            System.out.println("Songs added!");}
+            else System.out.println("Artist doesn't exist!");
+
+            ;
             closeConnection(conn);
+
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            e.printStackTrace();}
     }
 
     @Override

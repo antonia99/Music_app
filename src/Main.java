@@ -46,7 +46,11 @@ public class Main {
                 break;
             case "4":
                 pDAO.addToPlaylist();
-                System.out.println("Song/s added!");
+                //System.out.println("Song/s added!");
+                break;
+            case "5":
+                pDAO.addAllToPlaylist();
+                //System.out.println("Song/s added!");
                 break;
             case "7":
                 quit=true;
