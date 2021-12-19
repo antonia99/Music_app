@@ -8,20 +8,22 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
 
     @Override
     public void addToPlaylist() {
-            System.out.print("Playlist name: ");
-            String name = scan.nextLine();
+
 
 
             //int id = Integer.parseInt(scan.nextLine());
 
-            try {
+            try {Connection conn = getConnection();
+                System.out.print("Playlist name: ");
+                String name = scan.nextLine();
+                if(existPlaylist(conn,name)==true){
                 String ans = "y";
                 while (ans.equals("y")){
                     System.out.print("artist: ");
                 String artist = scan.nextLine();
                 System.out.print("title: ");
                 String title = scan.nextLine();
-                Connection conn = getConnection();
+                if(existSong(conn,name,artist,title)==true){
                 PreparedStatement st = conn.prepareStatement("select id from songs where artist=? and title=?", Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, artist);
                 st.setString(2, title);
@@ -39,16 +41,17 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
 
                     int affectedRows = ps.executeUpdate();
                     System.out.println("Song added!");
-                    System.out.println("Do you want to add songs from another artist? y/n:");
-                    ans= scan.nextLine();
 
-                    if (ans.equals("n")) {
-                        System.out.println("Action ended!");}
                 } else System.out.println("Song/Artist doesn't exist!");
-                ;
-                closeConnection(conn);
 
-            } } catch (SQLException e) {
+            }else System.out.println("Song already exist in playlist!");
+                System.out.println("Do you want to add songs from another artist? y/n:");
+                    ans= scan.nextLine();
+                    if (ans.equals("n")) {
+                        System.out.println("Action ended!");}}
+                    closeConnection(conn); }
+                else System.out.println("Playlist name already exist!"); }
+            catch (SQLException e) {
                 e.printStackTrace();}
 
 
@@ -108,13 +111,10 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
 
     @Override
     public void addToAnExistingPlaylist() {
-
-        System.out.print("Playlist name: ");
-        String name = scan.nextLine();
-
         //int id = Integer.parseInt(scan.nextLine());
-
         try {
+            System.out.print("Playlist name: ");
+            String name = scan.nextLine();
             Connection conn = getConnection();
             PreparedStatement st = conn.prepareStatement("select name from playlist where name=? ", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, name);
@@ -212,6 +212,33 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
        System.out.println("Do you want to add another song? y/n:");
        String ans = scan.nextLine();
    }
+public boolean existPlaylist(Connection conn, String name) throws SQLException {
+    PreparedStatement st = conn.prepareStatement("select name from playlist where name=? ", Statement.RETURN_GENERATED_KEYS);
+    st.setString(1, name);
+    ResultSet rs = st.executeQuery();
+    //ArrayList<String> names=new ArrayList<String>();
+    boolean noBreak=true;
+    while (rs.next()) {
+        //String name_pl=rs.getString("name");
+       // names.add(String.valueOf(name_pl)) ;
+        noBreak = false;
+    }
+    return noBreak;
 
+
+}
+public boolean existSong(Connection conn,String name,String artist,String title) throws SQLException {
+    PreparedStatement st = conn.prepareStatement("select artist,title from songs,playlist where name=? and artist=? and title=? and songs.id=playlist.id_s", Statement.RETURN_GENERATED_KEYS);
+    st.setString(1, name);
+    st.setString(2,artist);
+    st.setString(3,title);
+    ResultSet rs = st.executeQuery();
+    boolean noBreak=true;
+    while (rs.next()) {
+        //id = rs.getInt("id");
+        noBreak = false;
+    }
+    return noBreak;
+}
 
 }
