@@ -20,10 +20,11 @@ public class Main {
        String menu="1- add a song\n " +
                 "2- delete a song\n " +
                 "3- see all songs\n" +
-                "4- add songs in playlist\n" +
-                "5- add all songs from an artist to playlist\n"+
-                "6- play the songs in the playlist\n"  +
-                "7- Exit";
+                "4- add songs in a new playlist\n" +
+                "5- add songs in an existing playlist\n"+
+                "6- add all songs from an artist to playlist\n"+
+                "7- play the songs in the playlist\n"  +
+                "8- Exit";
          System.out.println(menu);
         Scanner scanner = new Scanner(System.in);
         boolean quit=false;
@@ -49,10 +50,14 @@ public class Main {
                 //System.out.println("Song/s added!");
                 break;
             case "5":
+                pDAO.addToAnExistingPlaylist();
+                //System.out.println("Song/s added!");
+                break;
+            case "6":
                 pDAO.addAllToPlaylist();
                 //System.out.println("Song/s added!");
                 break;
-            case "7":
+            case "8":
                 quit=true;
                 System.out.println("You exit the program!");
                 break;
