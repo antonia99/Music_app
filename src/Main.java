@@ -22,7 +22,7 @@ public class Main {
                 "3- see all songs\n" +
                 "4- add songs in a new playlist\n" +
                 "5- add songs in an existing playlist\n"+
-                "6- add all songs from an artist to playlist\n"+
+                "6- add all songs from an artist to an existing playlist\n"+
                 "7- play the songs in the playlist\n"  +
                 "8- Exit";
          System.out.println(menu);
