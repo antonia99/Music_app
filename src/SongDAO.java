@@ -1,8 +1,12 @@
+import java.io.IOException;
 import java.sql.SQLException;
 
 public interface SongDAO {
     public void add();
     public void delete();
-    public void createPlaylist();
+    public Song getSong(String name, String title) throws SQLException;
     public Song[] getAllSongs() throws SQLException;
+    public Song[] getAllSongsPerArtist(String artistName) throws SQLException;
+    public Song[] getAllSongsPerPlaylist(int playlistId) throws SQLException;
+    public void playSong(int songId, String url) throws SQLException, IOException;
 }
