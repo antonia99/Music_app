@@ -1,6 +1,19 @@
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
     public static final String CONNECTION_URL = "jdbc:mysql://localhost/music_app";
@@ -180,6 +193,42 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
 
     @Override
     public void playSongs() {
+        try {
+            Connection conn = getConnection();
+            System.out.print("Playlist name: ");
+            String name = scan.nextLine();
+            if (existPlaylist(conn, name) == false) {
+                PreparedStatement st = conn.prepareStatement("select id_s,link,title,duration from songs s,playlist p where s.id=p.id_s and p.name=? ", Statement.RETURN_GENERATED_KEYS);
+                st.setString(1, name);
+                ResultSet rs = st.executeQuery();
+                boolean noBreak = true;
+                ArrayList<String> title=new ArrayList<>();
+                ArrayList<String> link=new ArrayList<>();
+                ArrayList<Date> time=new ArrayList<>();
+                while (rs.next()) {
+                    String song=rs.getString("title");
+                    String link_s=rs.getString("link");
+                    //String name_pl=rs.getString("name");
+                    //names.add(String.valueOf(name_pl)) ;
+                    title.add(song);
+                    link.add(link_s);
+                    noBreak = false;
+                }
+                //System.out.println(link.size());
+
+                if (noBreak == false) {
+                    for(int i=0;i<link.size();i++){
+                        System.out.println("Playing song:"+ title.get(i));
+                        java.awt.Desktop.getDesktop().browse(java.net.URI.create(link.get(i)));
+                    }
+                }else System.out.println("Playlist is empty!");
+            }else System.out.println("Playlist doesn't exist!");
+            closeConnection(conn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

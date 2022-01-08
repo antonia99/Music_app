@@ -57,6 +57,10 @@ public class Main {
                 pDAO.addAllToPlaylist();
                 //System.out.println("Song/s added!");
                 break;
+            case "7":
+                pDAO.playSongs();
+                //System.out.println("Song/s added!");
+                break;
             case "8":
                 quit=true;
                 System.out.println("You exit the program!");
