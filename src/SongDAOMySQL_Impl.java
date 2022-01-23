@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,10 +57,6 @@ public class SongDAOMySQL_Impl implements SongDAO{
     }
 
         @Override
-        public void createPlaylist () {
-
-    }
-        @Override
         public Song[] getAllSongs () throws SQLException {
         try {
             Connection conn = getConnection();
@@ -100,4 +97,6 @@ public class SongDAOMySQL_Impl implements SongDAO{
     {
         conn.close();
     }
+
+
 }
