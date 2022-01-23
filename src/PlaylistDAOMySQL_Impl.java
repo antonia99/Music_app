@@ -22,8 +22,6 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
     @Override
     public void addToPlaylist() {
 
-
-
             //int id = Integer.parseInt(scan.nextLine());
 
             try {Connection conn = getConnection();
@@ -204,7 +202,7 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
                 boolean noBreak = true;
                 ArrayList<String> title=new ArrayList<>();
                 ArrayList<String> link=new ArrayList<>();
-                ArrayList<Date> time=new ArrayList<>();
+                //ArrayList<Date> time=new ArrayList<>();
                 while (rs.next()) {
                     String song=rs.getString("title");
                     String link_s=rs.getString("link");
@@ -218,6 +216,7 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
 
                 if (noBreak == false) {
                     for(int i=0;i<link.size();i++){
+
                         System.out.println("Playing song:"+ title.get(i));
                         java.awt.Desktop.getDesktop().browse(java.net.URI.create(link.get(i)));
                     }
@@ -242,32 +241,32 @@ public class PlaylistDAOMySQL_Impl implements PlaylistDAO{
     {
         conn.close();
     }
-   public void addSong(Connection conn,String name) throws SQLException {
-        int id=0;
-       boolean nobreak=true;
-       System.out.print("artist: ");
-       String artist = scan.nextLine();
-       System.out.print("title: ");
-       String title = scan.nextLine();
-       PreparedStatement at = conn.prepareStatement("select id from songs where artist=? and title=?", Statement.RETURN_GENERATED_KEYS);
-       at.setString(1, artist);
-       at.setString(2, title);
-       ResultSet bt = at.executeQuery();
-       //ArrayList<String>names=new ArrayList<String>();
-       PreparedStatement ps = conn.prepareStatement("insert into playlist(name,id_s) values(?,?) ", Statement.RETURN_GENERATED_KEYS);
-       while (bt.next()) {
-           id = bt.getInt("id");
-           nobreak = false;
-       }
-       if (nobreak == false) {
-           ps.setString(1, name);
-           ps.setInt(2, id);
-           int affectedRows = ps.executeUpdate();
-           System.out.println("Song added!");
-       } else System.out.println("Artist/song doesn't exist!");
-       System.out.println("Do you want to add another song? y/n:");
-       String ans = scan.nextLine();
-   }
+//   public void addSong(Connection conn,String name) throws SQLException {
+//        int id=0;
+//       boolean nobreak=true;
+//       System.out.print("artist: ");
+//       String artist = scan.nextLine();
+//       System.out.print("title: ");
+//       String title = scan.nextLine();
+//       PreparedStatement at = conn.prepareStatement("select id from songs where artist=? and title=?", Statement.RETURN_GENERATED_KEYS);
+//       at.setString(1, artist);
+//       at.setString(2, title);
+//       ResultSet bt = at.executeQuery();
+//       //ArrayList<String>names=new ArrayList<String>();
+//       PreparedStatement ps = conn.prepareStatement("insert into playlist(name,id_s) values(?,?) ", Statement.RETURN_GENERATED_KEYS);
+//       while (bt.next()) {
+//           id = bt.getInt("id");
+//           nobreak = false;
+//       }
+//       if (nobreak == false) {
+//           ps.setString(1, name);
+//           ps.setInt(2, id);
+//           int affectedRows = ps.executeUpdate();
+//           System.out.println("Song added!");
+//       } else System.out.println("Artist/song doesn't exist!");
+//       System.out.println("Do you want to add another song? y/n:");
+//       String ans = scan.nextLine();
+//   }
 public boolean existPlaylist(Connection conn, String name) throws SQLException {
     PreparedStatement st = conn.prepareStatement("select name from playlist where name=? ", Statement.RETURN_GENERATED_KEYS);
     st.setString(1, name);

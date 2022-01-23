@@ -98,22 +98,5 @@ public class SongDAOMySQL_Impl implements SongDAO{
         conn.close();
     }
 
-    @Override
-    public void playSong(int id, String url) throws SQLException, IOException {
-        java.awt.Desktop.getDesktop().browse( java.net.URI.create(url));
-        try{
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("insert into statistic_plays(songid, dateplayed) values(?,?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, id);
 
-            java.util.Date date=java.util.Calendar.getInstance().getTime();
-            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-
-            ps.setDate(2, sqlStartDate);
-            ps.executeUpdate();
-            closeConnection(conn);
-        }catch(SQLException e){
-
-        }
-    }
 }

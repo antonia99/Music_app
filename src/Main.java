@@ -7,16 +7,7 @@ public class Main {
         SongDAO sDAO = songDAOFactory.createSongDAO();
         PlaylistDAOFactory PlaylistDAOFactory = new PlaylistDAOFactory();
         PlaylistDAO pDAO = PlaylistDAOFactory.createPlaylistDAO();
-        //Song s1 = new Song(3, "Gigi","Winter",  3.3,"classic,rock,romantic","www.youtube.com");
-        //Song s2 = new Song(4, "Selena","Summer",3.2,"pop,folk","www.youtube.com/SelenaGomez");
-        //sDAO.add(s1);
-        //sDAO.add(s2);
-        //sDAO.delete(3);
-        //for(Song s:sDAO.getAllSongs())
-		//	System.out.println(s);
-        //Menu menu=new Menu();
-        //menu.printMenu();
-        //menu.runMenu();
+
        String menu="1- add a song\n " +
                 "2- delete a song\n " +
                 "3- see all songs\n" +
